@@ -8,8 +8,15 @@ export const Topbar = () => {
     try {
       console.log("getKey");
       const response = await fetchWrapper.get({endpoint: '/application/getKey'});
-      const data = await response.json();
-      console.log(data);
+      const blob = await response.blob();
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'public.pem';
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      console.log(response);
       if(response.ok){
         console.log('En teoria se envio la llave publica');
       }
