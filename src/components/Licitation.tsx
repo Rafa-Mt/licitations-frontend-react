@@ -7,7 +7,7 @@ interface LicitationProps {
     description: string;
     status: string;
     date: string;
-    userType: string;
+    userType: number;
 }
 
 const Licitation: React.FC<LicitationProps> = ({ name, description, status, date, userType }) => {
@@ -28,7 +28,7 @@ const Licitation: React.FC<LicitationProps> = ({ name, description, status, date
                             <Typography variant="h5" component="div">
                                 {name}
                             </Typography>
-                            {userType === 'admin' && (
+                            {userType === 1 && (
                                 <IconButton aria-label="download" color="primary">
                                     <Download />
                                 </IconButton>

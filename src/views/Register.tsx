@@ -13,6 +13,8 @@ import {
   Typography
 } from '@mui/material';
 import { LockPersonOutlined } from '@mui/icons-material';
+import { register } from '../services/fetch';
+import Redirecter from '../components/Redirecter';
 
 interface RegisterForm {
   username: string;
@@ -42,6 +44,8 @@ const Register = () => {
 	
 	const [errors, setErrors] = useState<RegisterErrors>({});
 
+	const [shouldRedirect, setShouldRedirect] = useState(false);
+
 	const validateField = (name: keyof RegisterErrors, value: string | boolean) => {
 		switch (name) {
 			case 'username':
@@ -66,7 +70,7 @@ const Register = () => {
 			}
 	};
 
-	const handleSubmit = (e: React.FormEvent) => {
+	const handleSubmit = async (e: React.FormEvent) => {
 		e.preventDefault();
 		
 		const newErrors = {
@@ -82,6 +86,17 @@ const Register = () => {
 		if (!Object.values(newErrors).some(error => error)) {
 		console.log('Registration data:', form);
 		// Add API call here
+		}
+
+		try {
+			const response = await register({ username: form.username, email: form.email, password: form.password });
+			console.log(response);
+			if(response?.success) {
+				console.log('Registration successful');
+				setShouldRedirect(true);	
+			}
+		} catch (error) {
+			console.error(error);
 		}
 	};
 
@@ -237,6 +252,7 @@ const Register = () => {
 				</Grid>
 				</Box>
 			</Box>
+			<Redirecter to="/login" shouldRedirect={shouldRedirect} />
 		</Container>
   );
 };

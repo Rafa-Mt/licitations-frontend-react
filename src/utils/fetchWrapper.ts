@@ -6,7 +6,7 @@ class FetchWrapper {
         //console.log(this.baseUrl);
     }
 
-    async post({endpoint, data}: {endpoint: string, data: object}) {
+    async post({endpoint, data}: {endpoint: string, data?: object}) {
         try {
             //console.log('POST METHOD')
             const url = this.baseUrl + endpoint;
@@ -31,7 +31,8 @@ class FetchWrapper {
         try {
             //console.log('GET METHOD')
             //console.log(this.baseUrl + endpoint)
-            const response = await fetch(this.baseUrl + endpoint, {
+            const url = this.baseUrl + endpoint;
+            const response = await fetch(url, {
                 method: 'GET',
                 // headers: {
                 //     'Content-Type': 'application/json',

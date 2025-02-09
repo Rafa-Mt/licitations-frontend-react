@@ -1,10 +1,21 @@
-import { Box, Button, ButtonGroup } from "@mui/material";
-import { Key, Send } from "@mui/icons-material";
-
+import { Box, Button } from "@mui/material";
+import { Key } from "@mui/icons-material";
+import Logout from "./Logout";
+import { fetchWrapper } from "../utils/fetchWrapper";
 
 export const Topbar = () => {
-  const getKey = () => {
-    console.log("getKey");
+  const getKey = async () => {
+    try {
+      console.log("getKey");
+      const response = await fetchWrapper.get({endpoint: '/application/getKey'});
+      const data = await response.json();
+      console.log(data);
+      if(response.ok){
+        console.log('En teoria se envio la llave publica');
+      }
+    }catch(error){
+      console.error(error);
+    }
   };
 
   const sendKey = () => {
@@ -21,7 +32,7 @@ export const Topbar = () => {
         zIndex: 1000,
         display: "flex",
         flexDirection: "row",
-        justifyContent: "center",
+        justifyContent: "space-between",
         alignItems: "center",
         padding: "10px",
         backgroundColor: "white",
@@ -30,45 +41,14 @@ export const Topbar = () => {
         borderBottom: "1px solid blue",
       }}
     >
-      {/* <ButtonGroup variant="text" sx={{
-        justifyContent: "space-between",
-        gap: "10px",
-        mx: "auto",
-      }}
-      color="primary"
-      >
-        <Button
-          sx={{
-            color: "blue",
-            fontWeight: "normal",
-            mx: "10px",
-          }}
-
-          onClick={getKey}
-        >
-          <Key fontSize="small" sx={{ color: "blue" }} />
-          Get Key
-        </Button>
-        <Button
-          sx={{
-            fontWeight: "normal",
-            mx: "10px",
-          }}
-
-          onClick={sendKey}
-        >
-          <Send fontSize="small" sx={{ color: "blue" }} />
-          Send Document
-        </Button>
-      </ButtonGroup> */}
-
       <Box
         sx={{
           display: "flex",
           flexDirection: "row",
-          justifyContent: "space-between",
           gap: 4,
           alignItems: "center",
+          justifyContent: "center", // Añadir esta línea
+          flex: 1, // Añadir esta línea
         }}
       >
         <Button
@@ -98,10 +78,10 @@ export const Topbar = () => {
             textTransform: "capitalize",
           }}
         >
-          {/* <Send fontSize="small" sx={{ mr: 1}} /> */}
           Send Documentation
         </Button>
       </Box>
+      <Logout />
     </Box>
   );
 };

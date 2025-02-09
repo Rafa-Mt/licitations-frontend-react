@@ -1,4 +1,4 @@
-import { getAuthToken, saveAuthToken } from "./cookies"
+import { getAuthToken, saveAuthToken, removeAuthToken } from "./cookies"
 import { fetchWrapper } from "../utils/fetchWrapper"
 
 interface LoginResponse {
@@ -47,7 +47,32 @@ export const login = async ({ email, password }: { email: string; password: stri
   }
 };
 
-export const register = async () => {
-    const token = ""
-    saveAuthToken(token)
+export const register = async ({username, email, password}: {username: string, email: string, password: string}) => {
+  try {
+    const response = await fetchWrapper.post({ 
+    endpoint: '/auth/register',
+    data: {username, email, password}
+     });
+     const data = await response.json();
+     console.log(data)
+    if (response.ok) {
+      return { success: true };
+    }
+    return { success: false };
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+export const logout = async () => {
+  try {
+    const response = await fetchWrapper.post({ endpoint: '/auth/logout' });
+    if (response.ok) {
+      removeAuthToken();
+      return {success: true}
+    }
+    return {success: false}
+  } catch (error) {
+    console.error(error); 
+  }
 }
