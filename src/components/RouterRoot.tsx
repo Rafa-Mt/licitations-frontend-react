@@ -18,7 +18,7 @@ const RouterRoot = () => {
         return <Navigate to="/login"></Navigate>
 
     return getUserType().then((type) => {
-        const routeToRedirect = type === 'user' ? "/app/user" : "/app/admin" 
+        const routeToRedirect = type === 'admin' ? "/app/admin" : "/app/user" 
         if (isAuthenticated && pathname === '/login')
             return <Navigate to={routeToRedirect}></Navigate>
     

@@ -9,14 +9,15 @@ interface LoginResponse {
 
 export const getUserType = async () => {
     // TODO
-    return 'user'
+    return 'admin'
 }
 
 
 
 export const login = async ({ email, password }: { email: string; password: string }): Promise<LoginResponse | undefined> => {
   try {
-    const response = await fetchWrapper.post({ endpoint: '/login', data: { email, password } });
+    console.log(email, password)
+    const response = await fetchWrapper.post({ endpoint: '/auth/login', data: { email, password } });
     const data = await response.json();
     if (response.ok) {
       saveAuthToken(data.token);

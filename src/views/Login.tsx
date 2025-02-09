@@ -12,6 +12,7 @@ import {
 } from '@mui/material';
 import { LockOutlined } from '@mui/icons-material';
 import { login } from '../services/fetch';
+import Redirecter from '../components/Redirecter';
 
 interface LoginErrors {
   email?: string;
@@ -23,6 +24,8 @@ const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [errors, setErrors] = useState<LoginErrors>({});
+  const [shouldRedirect, setShouldRedirect] = useState(false);
+
   const validateField = (name: keyof LoginErrors, value: string) => {
     switch (name) {
       case 'email':
@@ -49,8 +52,10 @@ const Login = () => {
     try {
       console.log('Login attempt', { email, password });
       const response = await login({ email, password });
-      if (response.success) {
-        
+      console.log(response);
+      if (response?.success) {
+        console.log('Login successful');
+        setShouldRedirect(true);
       }
     } catch (error) {
       console.error(error);
@@ -158,6 +163,7 @@ const Login = () => {
           </Grid>
         </Box>
       </Box>
+      {shouldRedirect && <Redirecter to="/app/user" shouldRedirect={shouldRedirect} />}
     </Container>
   );
 };
