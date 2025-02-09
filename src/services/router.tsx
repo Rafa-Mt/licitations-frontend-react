@@ -6,7 +6,8 @@ import {
 
 import Login from "../views/Login";
 import Register from "../views/Register";
-import Main from "../views/Main";
+import MainUser from "../views/MainUser";
+import MainAdmin from "../views/MainAdmin"
 import RouterRoot from "../components/RouterRoot";
 
 const rootRoute = createRootRoute({
@@ -25,13 +26,21 @@ const registerRoute = createRoute({
     component: Register
 })
 
-const mainRoute = createRoute({
+const mainUserRoute = createRoute({
     getParentRoute: () => rootRoute,
-    path: "/app",
-    component: Main
+    path: "/app/user",
+    component: MainUser
 })
 
-const routeTree = rootRoute.addChildren([loginRoute, registerRoute, mainRoute])
+const mainAdminRoute = createRoute({
+    getParentRoute: () => rootRoute,
+    path: "/app/admin",
+    component: MainAdmin
+})
+
+
+
+const routeTree = rootRoute.addChildren([loginRoute, registerRoute, mainUserRoute, mainAdminRoute])
 export const router = createRouter({ routeTree })
 
 declare module '@tanstack/react-router' {

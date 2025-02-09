@@ -93,151 +93,151 @@ const Register = () => {
 		}));
 	};
 
-  const handleChange = (field: keyof RegisterForm) => (e: React.ChangeEvent<HTMLInputElement>) => {
-		const value = e.target.type === 'checkbox' ? e.target.checked : e.target.value;
-		setForm(prev => ({ ...prev, [field]: value }));
-		setErrors(prev => ({ ...prev, [field]: '' }));
-  };
+	const handleChange = (field: keyof RegisterForm) => (e: React.ChangeEvent<HTMLInputElement>) => {
+			const value = e.target.type === 'checkbox' ? e.target.checked : e.target.value;
+			setForm(prev => ({ ...prev, [field]: value }));
+			setErrors(prev => ({ ...prev, [field]: '' }));
+	};
 
-  return (
-    <Container component="main" maxWidth="xs">
-		<CssBaseline />
-		<Box
-			sx={{
-			marginTop: 8,
-			display: 'flex',
-			flexDirection: 'column',
-			alignItems: 'center',
-			}}
-		>
-        <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
-          	<LockPersonOutlined />
-        </Avatar>
-
-        <Typography component="h1" variant="h5">
-          	Create Account
-        </Typography>
-
-        <Box component="form" onSubmit={handleSubmit} sx={{ mt: 3 }}>
-          <Grid container spacing={2}>
-            <Grid item xs={12}>
-				<TextField
-					autoComplete="username"
-					name="username"
-					required
-					fullWidth
-					label="Username"
-					autoFocus
-					value={form.username}
-					onChange={handleChange('username')}
-					onBlur={(e) => handleBlur(e as React.FocusEvent<HTMLInputElement>)}
-					error={!!errors.username}
-					helperText={errors.username}
-					FormHelperTextProps={{ sx: { mt: 0.5 } }}
-				/>
-            </Grid>
-
-            <Grid item xs={12}>
-				<TextField
-					required
-					fullWidth
-					label="Email Address"
-					name="email"
-					autoComplete="email"
-					value={form.email}
-					onChange={handleChange('email')}
-					error={!!errors.email}
-					helperText={errors.email}
-					FormHelperTextProps={{ sx: { mt: 0.5 } }}
-				/>
-            </Grid>
-
-            <Grid item xs={12}>
-				<TextField
-					required
-					fullWidth
-					name="password"
-					label="Password"
-					type="password"
-					value={form.password}
-					onChange={handleChange('password')}
-					onBlur={handleBlur}
-					error={!!errors.password}
-					helperText={errors.password || 'Minimum 6 characters'}
-					FormHelperTextProps={{ sx: { mt: 0.5 } }}
-				/>
-            </Grid>
-
-            <Grid item xs={12}>
-				<TextField
-					required
-					fullWidth
-					name="confirmPassword"
-					label="Confirm Password"
-					type="password"
-					value={form.confirmPassword}
-					onChange={handleChange('confirmPassword')}
-					onBlur={handleBlur}
-					error={!!errors.confirmPassword}
-					helperText={errors.confirmPassword}
-					FormHelperTextProps={{ sx: { mt: 0.5 } }}
-				/>
-            </Grid>
-
-            <Grid item xs={12}>
-				<FormControlLabel
-					control={
-						<Checkbox
-							color="primary"
-							checked={form.acceptTerms}
-							onChange={handleChange('acceptTerms')}
-						/>
-					}
-					label={
-						<Typography variant="body2">
-							I agree to the{' '}
-							<Link href="#" variant="body2">
-							Terms and Conditions
-							</Link>
-						</Typography>
-					}
-				/>
-				{errors.acceptTerms && (
-					<Typography color="error" variant="body2" sx={{ mt: -1, ml: 2 }}>
-					{errors.acceptTerms}
-					</Typography>
-				)}
-				</Grid>
-          </Grid>
-
-			<Button
-				type="submit"
-				fullWidth
-				variant="contained"
-				sx={{ 
-				mt: 3, 
-				mb: 2, 
-				py: 1.5,
-				'&:disabled': {
-					backgroundColor: 'action.disabled',
-					color: 'text.disabled'
-				}
+	return (
+		<Container component="main" maxWidth="xs">
+			<CssBaseline />
+			<Box
+				sx={{
+				marginTop: 8,
+				display: 'flex',
+				flexDirection: 'column',
+				alignItems: 'center',
 				}}
-				disabled={Object.values(errors).some(error => error)}
 			>
-				Sign Up
-			</Button>
+			<Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
+				<LockPersonOutlined />
+			</Avatar>
 
-          <Grid container justifyContent="flex-end">
-				<Grid item>
-					<Link href="/login" variant="body2">
-						Already have an account? Sign In
-					</Link>
+			<Typography component="h1" variant="h5">
+				Create Account
+			</Typography>
+
+			<Box component="form" onSubmit={handleSubmit} sx={{ mt: 3 }}>
+				<Grid container spacing={2}>
+					<Grid item xs={12}>
+						<TextField
+							autoComplete="username"
+							name="username"
+							required
+							fullWidth
+							label="Username"
+							autoFocus
+							value={form.username}
+							onChange={handleChange('username')}
+							onBlur={(e) => handleBlur(e as React.FocusEvent<HTMLInputElement>)}
+							error={!!errors.username}
+							helperText={errors.username}
+							FormHelperTextProps={{ sx: { mt: 0.5 } }}
+						/>
+					</Grid>
+
+					<Grid item xs={12}>
+						<TextField
+							required
+							fullWidth
+							label="Email Address"
+							name="email"
+							autoComplete="email"
+							value={form.email}
+							onChange={handleChange('email')}
+							error={!!errors.email}
+							helperText={errors.email}
+							FormHelperTextProps={{ sx: { mt: 0.5 } }}
+						/>
+					</Grid>
+
+					<Grid item xs={12}>
+						<TextField
+							required
+							fullWidth
+							name="password"
+							label="Password"
+							type="password"
+							value={form.password}
+							onChange={handleChange('password')}
+							onBlur={handleBlur}
+							error={!!errors.password}
+							helperText={errors.password || 'Minimum 6 characters'}
+							FormHelperTextProps={{ sx: { mt: 0.5 } }}
+						/>
+					</Grid>
+
+					<Grid item xs={12}>
+						<TextField
+							required
+							fullWidth
+							name="confirmPassword"
+							label="Confirm Password"
+							type="password"
+							value={form.confirmPassword}
+							onChange={handleChange('confirmPassword')}
+							onBlur={handleBlur}
+							error={!!errors.confirmPassword}
+							helperText={errors.confirmPassword}
+							FormHelperTextProps={{ sx: { mt: 0.5 } }}
+						/>
+					</Grid>
+
+					<Grid item xs={12}>
+						<FormControlLabel
+							control={
+								<Checkbox
+									color="primary"
+									checked={form.acceptTerms}
+									onChange={handleChange('acceptTerms')}
+								/>
+							}
+							label={
+								<Typography variant="body2">
+									I agree to the{' '}
+									<Link href="#" variant="body2">
+									Terms and Conditions
+									</Link>
+								</Typography>
+							}
+						/>
+						{errors.acceptTerms && (
+							<Typography color="error" variant="body2" sx={{ mt: -1, ml: 2 }}>
+							{errors.acceptTerms}
+							</Typography>
+						)}
+						</Grid>
 				</Grid>
-          </Grid>
-        </Box>
-      </Box>
-    </Container>
+
+				<Button
+					type="submit"
+					fullWidth
+					variant="contained"
+					sx={{ 
+					mt: 3, 
+					mb: 2, 
+					py: 1.5,
+					'&:disabled': {
+						backgroundColor: 'action.disabled',
+						color: 'text.disabled'
+					}
+					}}
+					disabled={Object.values(errors).some(error => error)}
+				>
+					Sign Up
+				</Button>
+
+				<Grid container justifyContent="flex-end">
+						<Grid item>
+							<Link href="/login" variant="body2">
+								Already have an account? Sign In
+							</Link>
+						</Grid>
+				</Grid>
+				</Box>
+			</Box>
+		</Container>
   );
 };
 
