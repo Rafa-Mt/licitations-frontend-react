@@ -1,6 +1,5 @@
-import React from 'react'
-import Licitation from '../components/Licitation/Licitation'
-import Logout from '../components/Logout/Logout'
+import Logout from '../components/Logout'
+import Licitation from '../components/Licitation'
 
 const MainAdmin = () => {
     return (

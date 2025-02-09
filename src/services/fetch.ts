@@ -8,8 +8,26 @@ interface LoginResponse {
 
 
 export const getUserType = async () => {
-    // TODO
-    return 'admin'
+    const token = getAuthToken()
+    let payloadBase64;
+    let payloadDecoded;
+    if(!token){
+      console.log('no token')
+      return;
+  }
+    payloadBase64 = token?.split('.')[1]; 
+    payloadDecoded = payloadBase64 ? JSON.parse(atob(payloadBase64)) : null;
+
+    if(!payloadDecoded){
+        console.log('no payload')
+        return;
+    }
+    console.log(payloadDecoded)
+
+    if(payloadDecoded.user_type === 1 ){
+        return 'admin'
+    }
+    return 'user'
 }
 
 

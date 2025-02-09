@@ -1,9 +1,9 @@
 import React from 'react';
 import { Button } from '@mui/material';
 import { useNavigate } from '@tanstack/react-router';
-import { removeAuthToken } from '../../services/cookies';
+import { removeAuthToken } from '../services/cookies';
 
-const Logout = () => {
+const Logout: React.FC = () => {
   const navigate = useNavigate();
 
   const handleLogout = () => {
