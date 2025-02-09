@@ -11,6 +11,7 @@ import {
   Alert
 } from '@mui/material';
 import { LockOutlined } from '@mui/icons-material';
+import { login } from '../services/fetch';
 
 interface LoginErrors {
   email?: string;
@@ -22,7 +23,6 @@ const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [errors, setErrors] = useState<LoginErrors>({});
-
   const validateField = (name: keyof LoginErrors, value: string) => {
     switch (name) {
       case 'email':
@@ -37,7 +37,7 @@ const Login = () => {
     }
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
     const newErrors = {
@@ -46,11 +46,14 @@ const Login = () => {
     };
 
     setErrors(newErrors);
-
-    if (!newErrors.email && !newErrors.password) {
-      // Simulated API call
-      console.log('Login attempt:', { email, password });
-      setErrors({ form: 'Invalid credentials' });
+    try {
+      console.log('Login attempt', { email, password });
+      const response = await login({ email, password });
+      if (response.success) {
+        
+      }
+    } catch (error) {
+      console.error(error);
     }
   };
 
