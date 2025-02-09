@@ -14,8 +14,8 @@ const RouterRoot = () => {
     })
     console.log({isAuthenticated, pathname})
 
-    if (!isAuthenticated && !["/login", "/register", "/"].includes(pathname))
-        return <Navigate to="/login"></Navigate>
+    // if (!isAuthenticated && !["/login", "/register", "/"].includes(pathname))
+    //     return <Navigate to="/login"></Navigate>
 
     return getUserType().then((type) => {
         const routeToRedirect = type === 'admin' ? "/app/admin" : "/app/user" 
