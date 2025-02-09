@@ -12,3 +12,7 @@ export const saveAuthToken = (token: string) => {
 export const getAuthToken = () => {
     return Cookies.get('session_token')
 }
+
+export const removeAuthToken = () => {
+    Cookies.remove('session_token');
+  };
