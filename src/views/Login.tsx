@@ -163,7 +163,7 @@ const Login = () => {
           </Grid>
         </Box>
       </Box>
-      {shouldRedirect && <Redirecter to="/app/user" shouldRedirect={shouldRedirect} />}
+      {/* {shouldRedirect && <Redirecter to="/app/user" shouldRedirect={shouldRedirect} />} */}
     </Container>
   );
 };
