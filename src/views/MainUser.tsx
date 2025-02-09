@@ -1,6 +1,10 @@
+import { Topbar } from "../components/TopBar"
+
 const MainUser = () => {
 	return (
-		<div>Main</div>
+		<div>
+			<Topbar />
+		</div>
 	)
 }
 
