@@ -1,33 +1,43 @@
 import { Box, Button } from "@mui/material";
 import { Key } from "@mui/icons-material";
 import Logout from "./Logout";
+import FormDialog from "./FormDialog";
 import { fetchWrapper } from "../utils/fetchWrapper";
+import { useState } from "react";
 
 export const Topbar = () => {
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
+
   const getKey = async () => {
     try {
       console.log("getKey");
-      const response = await fetchWrapper.get({endpoint: '/application/getKey'});
+      const response = await fetchWrapper.get({
+        endpoint: "/application/getKey",
+      });
       const blob = await response.blob();
       const url = window.URL.createObjectURL(blob);
-      const a = document.createElement('a');
+      const a = document.createElement("a");
       a.href = url;
-      a.download = 'public.pem';
+      a.download = "public.pem";
       document.body.appendChild(a);
       a.click();
       a.remove();
       console.log(response);
-      if(response.ok){
-        console.log('En teoria se envio la llave publica');
+      if (response.ok) {
+        console.log("En teoria se envio la llave publica");
       }
-    }catch(error){
+    } catch (error) {
       console.error(error);
     }
   };
 
   const sendKey = () => {
-    console.log("sendKey");
+    setIsDialogOpen(true);
   };
+
+  const handleClose = () => {
+    setIsDialogOpen(false);
+  }
 
   return (
     <Box
@@ -54,8 +64,8 @@ export const Topbar = () => {
           flexDirection: "row",
           gap: 4,
           alignItems: "center",
-          justifyContent: "center", // Añadir esta línea
-          flex: 1, // Añadir esta línea
+          justifyContent: "center",
+          flex: 1,
         }}
       >
         <Button
@@ -89,6 +99,7 @@ export const Topbar = () => {
         </Button>
       </Box>
       <Logout />
+      <FormDialog open={isDialogOpen} onClose={handleClose}/>
     </Box>
   );
 };
