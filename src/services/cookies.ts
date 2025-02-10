@@ -2,6 +2,11 @@ import Cookies from "js-cookie";
 
 export const checkAuthToken = (): boolean => {
     const sessionToken = Cookies.get('session_token');
+    const payload = sessionToken ? getTokenPayload({ token: sessionToken }) : null;
+    if (payload && payload.exp && Date.now() >= payload.exp * 1000) {
+        console.error("Token is expired");
+        return false;
+    }
     return Boolean(sessionToken);
 }
 

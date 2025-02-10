@@ -97,3 +97,15 @@ export const getApplicationsAdmin = async () =>{
     console.error(error);
   }
 }
+
+export const updateApplication = async ({id, id_state}: {id: number, id_state: number}) => {
+  try {
+    console.log(id, id_state)
+    const response = await fetchWrapper.put({endpoint: `/application/update/${id}`, data: {id_state}});
+    const data = await response.json();
+    console.log(data)
+    return data
+  } catch (error) {
+    console.error(error)
+  }
+}
