@@ -2,7 +2,7 @@ class FetchWrapper {
     private baseUrl: string;
 
     constructor(baseUrl: string) {
-        this.baseUrl = baseUrl ? baseUrl : 'https://backendseguridadinformatica.onrender.com';
+        this.baseUrl = baseUrl ? baseUrl : 'http://localhost:3000';
         //console.log(this.baseUrl);
     }
 
@@ -105,4 +105,4 @@ class FetchWrapper {
     }
 }
 
-export const fetchWrapper = new FetchWrapper('https://backendseguridadinformatica.onrender.com');
+export const fetchWrapper = new FetchWrapper('http://localhost:3000');

@@ -1,4 +1,5 @@
 import { Box, Button, TextField, Typography } from "@mui/material";
+import { getAuthToken, getTokenPayload } from "../services/cookies";
 import React, { useState } from "react";
 import InputFile from "./InputFile";
 
@@ -83,7 +84,12 @@ export const SendForm = ({ onClose }: SendFormProps) => {
         formData.append("file", keyFile);
       }
 
-      const response = await fetch("https://backendseguridadinformatica.onrender.com/send/txt", {
+      const token = getAuthToken();
+      if (!token) {
+        throw new Error("Authentication token is missing");
+      }
+      const payload = getTokenPayload({ token });
+      const response = await fetch(`http://localhost:3000/send/txt/${payload.id_user}`, {
         method: "POST",
         body: formData,
         credentials: "include"
