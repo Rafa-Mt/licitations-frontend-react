@@ -12,7 +12,7 @@ interface LicitationProps {
 
 const Licitation: React.FC<LicitationProps> = ({ name, description, status, date, userType }) => {
     return (
-        <Container component="main" maxWidth="xs">
+        <Container component="main" maxWidth="md"> {/* Cambiado de xs a md para un ancho mayor */}
             <CssBaseline />
             <Box
                 sx={{
@@ -22,7 +22,7 @@ const Licitation: React.FC<LicitationProps> = ({ name, description, status, date
                     alignItems: 'center',
                 }}
             >
-                <Card sx={{ maxWidth: 345, margin: "1rem" }}>
+                <Card sx={{ width: '100%', margin: "1rem" }}> {/* Ajustado el ancho a 100% */}
                     <CardContent>
                         <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                             <Typography variant="h5" component="div">

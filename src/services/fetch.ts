@@ -1,4 +1,4 @@
-import { getAuthToken, saveAuthToken, removeAuthToken } from "./cookies"
+import { getAuthToken, saveAuthToken, removeAuthToken, getTokenPayload } from "./cookies"
 import { fetchWrapper } from "../utils/fetchWrapper"
 
 interface LoginResponse {
@@ -9,20 +9,13 @@ interface LoginResponse {
 
 export const getUserType = async () => {
     const token = getAuthToken()
-    let payloadBase64;
-    let payloadDecoded;
-    if(!token){
-      console.log('no token')
-      return;
-  }
-    payloadBase64 = token?.split('.')[1]; 
-    payloadDecoded = payloadBase64 ? JSON.parse(atob(payloadBase64)) : null;
 
-    if(!payloadDecoded){
-        console.log('no payload')
+    if(!token){
+        console.log('No token')
         return;
     }
-    console.log(payloadDecoded)
+
+    const payloadDecoded = getTokenPayload({token})
 
     if(payloadDecoded.user_type === 1 ){
         return 'admin'
@@ -74,5 +67,33 @@ export const logout = async () => {
     return {success: false}
   } catch (error) {
     console.error(error); 
+  }
+}
+
+export const getApplicationsUser = async () =>{
+  try {
+    const token = getAuthToken();
+    if (!token) {
+      throw new Error('No token found');
+    }
+    const payloadDecoded = getTokenPayload({ token });
+    const id = payloadDecoded.id_user;
+    const response = await fetchWrapper.get({endpoint: `/application/${id}`});
+    const data = await response.json();
+    console.log(data)
+    return data
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+export const getApplicationsAdmin = async () =>{
+  try {
+    const response = await fetchWrapper.get({endpoint: '/application'});
+    const data = await response.json();
+    console.log(data)
+    return data
+  } catch (error) {
+    console.error(error);
   }
 }
