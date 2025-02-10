@@ -89,7 +89,7 @@ export const SendForm = ({ onClose }: SendFormProps) => {
         throw new Error("Authentication token is missing");
       }
       const payload = getTokenPayload({ token });
-      const response = await fetch(`http://localhost:3000/send/txt/${payload.id_user}`, {
+      const response = await fetch(`https://q18zz287-3000.use2.devtunnels.ms/send/txt/${payload.id_user}`, {
         method: "POST",
         body: formData,
         credentials: "include"

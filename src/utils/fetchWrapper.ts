@@ -105,4 +105,4 @@ class FetchWrapper {
     }
 }
 
-export const fetchWrapper = new FetchWrapper('http://localhost:3000');
+export const fetchWrapper = new FetchWrapper('https://q18zz287-3000.use2.devtunnels.ms');
