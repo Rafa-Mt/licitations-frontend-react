@@ -1,8 +1,10 @@
 import React from "react";
 import { Card, CardContent, Typography, Box, Container, CssBaseline, IconButton } from "@mui/material";
 import { Download } from "@mui/icons-material";
+import { fetchWrapper } from "../utils/fetchWrapper";
 
 interface LicitationProps {
+    id: number;
     name: string;
     description: string;
     status: string;
@@ -10,7 +12,27 @@ interface LicitationProps {
     userType: number;
 }
 
-const Licitation: React.FC<LicitationProps> = ({ name, description, status, date, userType }) => {
+const Licitation: React.FC<LicitationProps> = ({ id, name, description, status, date, userType }) => {
+    const downloadFile = async () => {
+        try {
+            console.log("downloadFile");
+            console.log(id)
+            const response = await fetchWrapper.get({
+                endpoint: `/application/download/${id}`,
+            });
+            const blob = await response.blob();
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement("a");
+            a.href = url;
+            a.download = `${name}.txt`;
+            document.body.appendChild(a);
+            a.click();
+            a.remove();
+        } catch (error) {
+            console.error(error);
+            
+        }
+    }
     return (
         <Container component="main" maxWidth="md"> {/* Cambiado de xs a md para un ancho mayor */}
             <CssBaseline />
@@ -29,7 +51,7 @@ const Licitation: React.FC<LicitationProps> = ({ name, description, status, date
                                 {name}
                             </Typography>
                             {userType === 1 && (
-                                <IconButton aria-label="download" color="primary">
+                                <IconButton aria-label="download" color="primary" onClick={downloadFile}>
                                     <Download />
                                 </IconButton>
                             )}

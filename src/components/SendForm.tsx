@@ -1,7 +1,6 @@
 import { Box, Button, TextField, Typography } from "@mui/material";
 import React, { useState } from "react";
 import InputFile from "./InputFile";
-import { fetchWrapper } from "../utils/fetchWrapper";
 
 interface sendFormErrors {
   title?: string;
@@ -25,16 +24,19 @@ export const SendForm = ({ onClose }: SendFormProps) => {
   const validateFields = (name: keyof sendFormErrors, value: string) => {
     switch (name) {
       case "title":
+        console.log('no hay title',value)
         if (!value || value === "") return "Title required.";
         return "";
       case "description":
+        console.log('no hay description',value)
         if (!value || value === "") return "Description required.";
         return "";
       case "file":
+        console.log('no hay file',value, name)
         if (!value || value === "") return "File required.";
         return "";
       case "keyFile":
-        console.log('no hay')
+        console.log('no hay keyfile',value, name)
         if (!value || value === "") return "Key file required.";
         return "";
       default:
@@ -78,13 +80,15 @@ export const SendForm = ({ onClose }: SendFormProps) => {
       }
       if (keyFile) {
         console.log('si hay lalve')
-        formData.append("keyFile", keyFile);
+        formData.append("file", keyFile);
       }
 
-      const response = await fetchWrapper.post({
-        endpoint: "/send/txt",
-        data: formData,
+      const response = await fetch("http://localhost:3000/send/txt", {
+        method: "POST",
+        body: formData,
+        credentials: "include"
       })
+
       if(response?.ok){
         console.log("En teoria se envio el archivo");
       }
@@ -147,7 +151,7 @@ export const SendForm = ({ onClose }: SendFormProps) => {
         <InputFile onFileChange={handleFileChange} content="Upload File" />
         {file && (
           <Typography variant="body2" color="text.secondary">
-            Selected file: {file}
+            Selected file: {file.name}
           </Typography>
         )}
         {errors.file && (
@@ -158,7 +162,7 @@ export const SendForm = ({ onClose }: SendFormProps) => {
         <InputFile onFileChange={handleKeyFileChange} content="Upload Key" />
         {keyFile && (
           <Typography variant="body2" color="text.secondary">
-            Selected key file: {keyFile}
+            Selected key file: {keyFile.name}
           </Typography>
         )}
         {errors.keyFile && (

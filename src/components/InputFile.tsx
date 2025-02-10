@@ -2,7 +2,7 @@ import { Button, styled } from "@mui/material";
 import { CloudUploadOutlined } from "@mui/icons-material";
 
 interface InputFileProps {
-  onFileChange: (file: string) => void;
+  onFileChange: (file: File) => void;
   content?: string;
 }
 
@@ -23,7 +23,7 @@ export default function InputFile({ onFileChange, content }: InputFileProps) {
     if (e.target.files && e.target.files[0]) {
       const file = e.target.files[0];
       console.log(file.name);
-      onFileChange(file.name);
+      onFileChange(file);
     }
   };
 
@@ -36,7 +36,7 @@ export default function InputFile({ onFileChange, content }: InputFileProps) {
       startIcon={<CloudUploadOutlined />}
     >
       {content === null ? "Upload File" : content}
-      <VisuallyHiddenInput type="file" onChange={handleFileChange} multiple />
+      <VisuallyHiddenInput type="file" onChange={handleFileChange} />
     </Button>
   );
 }

@@ -78,10 +78,10 @@ export const getApplicationsUser = async () =>{
     }
     const payloadDecoded = getTokenPayload({ token });
     const id = payloadDecoded.id_user;
-    const response = await fetchWrapper.get({endpoint: `/application/${id}`});
+    const response = await fetchWrapper.get({endpoint: `/application/user/${id}`});
     const data = await response.json();
     console.log(data)
-    return data
+    return data.application;
   } catch (error) {
     console.error(error);
   }
@@ -89,10 +89,10 @@ export const getApplicationsUser = async () =>{
 
 export const getApplicationsAdmin = async () =>{
   try {
-    const response = await fetchWrapper.get({endpoint: '/application'});
+    const response = await fetchWrapper.get({endpoint: '/application/admin'});
     const data = await response.json();
-    console.log(data)
-    return data
+    console.log(data.applications)
+    return data.applications
   } catch (error) {
     console.error(error);
   }
