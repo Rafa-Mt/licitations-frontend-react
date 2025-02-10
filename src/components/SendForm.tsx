@@ -1,6 +1,7 @@
 import { Box, Button, TextField, Typography } from "@mui/material";
 import React, { useState } from "react";
 import InputFile from "./InputFile";
+import { fetchWrapper } from "../utils/fetchWrapper";
 
 interface sendFormErrors {
   title?: string;
@@ -16,9 +17,9 @@ interface SendFormProps {
 export const SendForm = ({ onClose }: SendFormProps) => {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
-  const [file, setFile] = useState("");
-  const [keyFile, setKeyFile] = useState("");
-
+  const [file, setFile] = useState<File | null>(null);
+  const [keyFile, setKeyFile] = useState<File | null>(null);
+  
   const [errors, setErrors] = useState<sendFormErrors>({});
 
   const validateFields = (name: keyof sendFormErrors, value: string) => {
@@ -33,6 +34,7 @@ export const SendForm = ({ onClose }: SendFormProps) => {
         if (!value || value === "") return "File required.";
         return "";
       case "keyFile":
+        console.log('no hay')
         if (!value || value === "") return "Key file required.";
         return "";
       default:
@@ -40,24 +42,57 @@ export const SendForm = ({ onClose }: SendFormProps) => {
     }
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
-    //ponerlo async para envio de data
+  const handleFileChange = (file: File) => {
+    console.log('licitacion encriptada',file)
+    setFile(file);
+  };
+
+  const handleKeyFileChange = (file: File) => {
+    console.log('key file',file)
+    setKeyFile(file);
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
     const newErrors = {
       title: validateFields("title", title),
       description: validateFields("description", description),
-      file: validateFields("file", file),
-      keyFile: validateFields("keyFile", keyFile),
+      file: validateFields("file", file ? file.name : ""),
+      keyFile: validateFields("keyFile", keyFile ? keyFile.name : ""),
     };
 
     setErrors(newErrors);
 
     if (!newErrors.title && !newErrors.description && !newErrors.file && !newErrors.keyFile) {
-      console.log(`{${title}} == {${description}} == {${file}} == {${keyFile}}`);
+      console.log(`{${title}} == {${description}} == {${file?.name}} == {${keyFile?.name}}`);
       onClose();
     }
+    try {
+      const formData = new FormData();
+      formData.append("title", title);
+      formData.append("description", description);
+      if (file) {
+        console.log('si hay licitacion')
+        formData.append("file", file);
+      }
+      if (keyFile) {
+        console.log('si hay lalve')
+        formData.append("keyFile", keyFile);
+      }
+
+      const response = await fetchWrapper.post({
+        endpoint: "/send/txt",
+        data: formData,
+      })
+      if(response?.ok){
+        console.log("En teoria se envio el archivo");
+      }
+    } catch (error) {
+      console.log(error);
+    }
   };
+
   return (
     <Box
       sx={{
@@ -68,7 +103,6 @@ export const SendForm = ({ onClose }: SendFormProps) => {
         gap: 4,
       }}
     >
-
       <Box
         sx={{
           display: "flex",
@@ -110,13 +144,23 @@ export const SendForm = ({ onClose }: SendFormProps) => {
             {errors.description}
           </Typography>
         )}
-        <InputFile onFileChange={setFile} content="Upload File" />
+        <InputFile onFileChange={handleFileChange} content="Upload File" />
+        {file && (
+          <Typography variant="body2" color="text.secondary">
+            Selected file: {file}
+          </Typography>
+        )}
         {errors.file && (
           <Typography variant="subtitle2" color="error">
             {errors.file}
           </Typography>
         )}
-        <InputFile onFileChange={setKeyFile} content="Upload Key" />
+        <InputFile onFileChange={handleKeyFileChange} content="Upload Key" />
+        {keyFile && (
+          <Typography variant="body2" color="text.secondary">
+            Selected key file: {keyFile}
+          </Typography>
+        )}
         {errors.keyFile && (
           <Typography variant="subtitle2" color="error">
             {errors.keyFile}
