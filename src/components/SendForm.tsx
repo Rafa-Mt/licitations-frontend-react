@@ -83,7 +83,7 @@ export const SendForm = ({ onClose }: SendFormProps) => {
         formData.append("file", keyFile);
       }
 
-      const response = await fetch("http://localhost:3000/send/txt", {
+      const response = await fetch("https://backendseguridadinformatica.onrender.com/send/txt", {
         method: "POST",
         body: formData,
         credentials: "include"

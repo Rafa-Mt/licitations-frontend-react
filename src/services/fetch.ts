@@ -76,6 +76,7 @@ export const getApplicationsUser = async () =>{
     if (!token) {
       throw new Error('No token found');
     }
+    
     const payloadDecoded = getTokenPayload({ token });
     const id = payloadDecoded.id_user;
     const response = await fetchWrapper.get({endpoint: `/application/user/${id}`});
@@ -89,7 +90,13 @@ export const getApplicationsUser = async () =>{
 
 export const getApplicationsAdmin = async () =>{
   try {
-    const response = await fetchWrapper.get({endpoint: '/application/admin'});
+    const token = getAuthToken();
+    if (!token) {
+      throw new Error('No token found');
+    }
+    const payload = getTokenPayload({ token });
+    console.log(payload)
+    const response = await fetchWrapper.get({endpoint: `/application/admin/${payload.id_user}/${payload.user_type}`});
     const data = await response.json();
     console.log(data.applications)
     return data.applications
